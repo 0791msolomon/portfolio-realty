@@ -49,22 +49,22 @@ const Links = props => {
           <br />
           <h4>Links for Homeowners</h4>
           <a href="">
-            <small style={{ float: "left" }}>words about the home owners</small>
+            <li style={{ float: "left" }}>Insert link for Home Owners</li>
           </a>
           <a href="">
-            <small style={{ float: "left" }}>words about the home owners</small>
-          </a>
-
-          <a href="">
-            <small style={{ float: "left" }}>words about the home owners</small>
+            <li style={{ float: "left" }}>Insert link for Home Owners</li>
           </a>
 
           <a href="">
-            <small style={{ float: "left" }}>words about the home owners</small>
+            <li style={{ float: "left" }}>Insert link for Home Owners</li>
           </a>
 
           <a href="">
-            <small style={{ float: "left" }}>words about the home owners</small>
+            <li style={{ float: "left" }}>Insert link for Home Owners</li>
+          </a>
+
+          <a href="">
+            <li style={{ float: "left" }}>Insert link for Home Owners</li>
           </a>
         </div>
       </div>
@@ -88,22 +88,22 @@ const Links = props => {
           <br />
           <h4>Links for Realtors</h4>
           <a href="">
-            <small style={{ float: "left" }}>words about the realtors</small>
+            <li style={{ float: "left" }}>Insert Links for Realtors</li>
           </a>
           <a href="">
-            <small style={{ float: "left" }}>words about the realtors</small>
-          </a>
-
-          <a href="">
-            <small style={{ float: "left" }}>words about the realtors</small>
+            <li style={{ float: "left" }}>Insert Links for Realtors</li>
           </a>
 
           <a href="">
-            <small style={{ float: "left" }}>words about the realtors</small>
+            <li style={{ float: "left" }}>Insert Links for Realtors</li>
           </a>
 
           <a href="">
-            <small style={{ float: "left" }}>words about the realtors</small>
+            <li style={{ float: "left" }}>Insert Links for Realtors</li>
+          </a>
+
+          <a href="">
+            <li style={{ float: "left" }}>Insert Links for Realtors</li>
           </a>
         </div>
       </div>

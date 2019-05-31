@@ -86,7 +86,7 @@ class RecentListings extends React.Component {
           style={{ marginTop: "3%", marginBottom: "3%" }}
         >
           <button className="btn form-control viewListings">
-            View 100 recent listings
+            View our 100 newest Listings
           </button>
         </div>
         <div

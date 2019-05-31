@@ -3,7 +3,8 @@ import HomesList from "./HomesList";
 import Quote from "./Quote";
 import RecentListings from "./RecentListings";
 import "./index.css";
-import dogs from "./photos/dogs.png";
+import TypeAhead from "./TypeAhead";
+
 import Link from "./Link";
 import InfiniteCarousel from "react-leaf-carousel";
 const axios = require("axios");
@@ -11,7 +12,7 @@ const url = process.env.REACT_APP_BASEURL || "http://localhost:5000/api/realty";
 class Home extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { updated: false, properties: [] };
+    this.state = { updated: false, properties: [], search: "", sss: "" };
   }
   componentDidMount = async () => {
     try {
@@ -24,6 +25,9 @@ class Home extends React.Component {
   renderProperties = () => {
     console.log(this.state.properties);
     return this.state.properties.map(item => {
+      let priceArr = item.price.split("");
+      priceArr.splice(4, 0, ",");
+      priceArr.join("");
       return (
         <div key={item._id} className="picContainer">
           <img
@@ -32,7 +36,7 @@ class Home extends React.Component {
             style={{ height: "200px", width: "400px" }}
           />
           <div className="picText">
-            <span>{item.price}</span>
+            <span>{priceArr}</span>
             <small style={{ fontWeight: "bold" }}>
               {item.address.substring(0, 15)}...
             </small>
@@ -40,6 +44,11 @@ class Home extends React.Component {
         </div>
       );
     });
+  };
+  selectState = state => {
+    if (state.length > 0) {
+      console.log(state[0].slice(state[0].length - 2, state[0].length));
+    }
   };
   render() {
     return (
@@ -67,18 +76,7 @@ class Home extends React.Component {
               <u> right for you</u>
             </i>
           </h3>
-          <div className="input-group col-lg-4 col-sm-9">
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Search by state..."
-            />
-            <span className="input-group-btn">
-              <button className="btn btn-search btn-info" type="button">
-                <i className="fa fa-search fa-fw" /> Search
-              </button>
-            </span>
-          </div>
+          <TypeAhead change={state => this.selectState(state)} />
         </div>
         <Quote
           min="100px"

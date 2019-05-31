@@ -5,7 +5,7 @@ const url = process.env.REACT_APP_BASEURL || "http://localhost:5000/api/realty";
 class HomesList extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { homes: [] };
+    this.state = { homes: [], value: "" };
   }
   // componentDidMount = async () => {
   //   try {
