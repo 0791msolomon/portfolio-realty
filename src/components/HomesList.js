@@ -7,14 +7,14 @@ class HomesList extends React.Component {
     super(props);
     this.state = { homes: [] };
   }
-  componentDidMount = async () => {
-    try {
-      let response = await axios.get(url);
-      this.setState({ homes: response.data });
-    } catch (err) {
-      console.log(err);
-    }
-  };
+  // componentDidMount = async () => {
+  //   try {
+  //     let response = await axios.get(url);
+  //     this.setState({ homes: response.data });
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
   renderHomes = () => {
     console.log(this.state.homes.length);
     return this.state.homes.map(item => {
@@ -39,7 +39,8 @@ class HomesList extends React.Component {
         className="col-12"
         style={{ display: "flex", flexDirection: "row", flexWrap: "wrap" }}
       >
-        {this.state.homes.length > 0 ? this.renderHomes() : null}{" "}
+        listings
+        {/* {this.state.homes.length > 0 ? this.renderHomes() : null}{" "} */}
       </div>
     );
   }

@@ -1,10 +1,12 @@
 import React from "react";
 
 const Quote = props => {
+  let height = props.min;
+
   return (
     <div
       style={{
-        minHeight: "100px",
+        minHeight: height,
         height: "auto",
         width: "100%",
         backgroundColor: "white",
@@ -15,11 +17,15 @@ const Quote = props => {
       }}
     >
       <blockquote class="blockquote text-center">
-        <p class="mb-0" style={{ fontFamily: "Times, Times New Roman, serif" }}>
-          "If you haven't found it yet, keep looking. Don't settle. As with all
-          matters of the heart, you'll know it when you find it"
-        </p>
-        <footer class="blockquote-footer">Steve Jobs </footer>
+        <h3
+          class="mb-0"
+          style={{ fontFamily: "Times, Times New Roman, serif" }}
+        >
+          {props.quote}
+        </h3>
+        {props.speaker ? (
+          <footer class="blockquote-footer">{props.speaker}</footer>
+        ) : null}
       </blockquote>
     </div>
   );

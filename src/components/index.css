@@ -25,7 +25,7 @@
 }
 
 .pic:hover {
-  -webkit-filter: brightness(60%);
+  -webkit-filter: brightness(40%);
   -webkit-transition: all 1s ease;
   -moz-transition: all 1s ease;
   -o-transition: all 1s ease;
@@ -34,4 +34,44 @@
 }
 .pic {
   -webkit-filter: brightness(100%);
+}
+
+.viewListings {
+  background-color: transparent;
+  color: black;
+  border: solid 1px black;
+  transition: 0.3s;
+}
+
+.viewListings:hover {
+  background-color: #16d5f2;
+  color: white;
+}
+
+.peopleHelping {
+  background-image: url("https://b2cdata.marketing.moveaws.com/thats-who-we-r/images/ribbon.jpg");
+  height: 600px;
+  position: relative;
+  /* width: "100%"; */
+  background-position: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.picText {
+  position: absolute;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  bottom: 10%;
+}
+
+.links {
+  margin-top: 5%;
+  min-height: 200px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  /* justify-content: space-evenly; */
 }
