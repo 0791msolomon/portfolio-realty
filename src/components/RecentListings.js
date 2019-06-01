@@ -99,7 +99,7 @@ class RecentListings extends React.Component {
             justifyContent: "space-around"
           }}
         >
-          <Link className="col-lg-3 col-sm-12">
+          <Link className="col-lg-3 col-sm-12" to="/allListings">
             <h3>
               {this.state.allHomes.length}
               <span style={{ color: "black" }}>All Listings</span>
