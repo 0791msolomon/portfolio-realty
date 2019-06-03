@@ -1,5 +1,7 @@
 import React from "react";
 import axios from "axios";
+import "rc-pagination/assets/index.css";
+import Pagination from "rc-pagination";
 const url =
   process.env.REACT_APP_BASEURL || "http://localhost:5000/api/realty/";
 class AllListings extends React.Component {
@@ -18,7 +20,6 @@ class AllListings extends React.Component {
     try {
       let response = await axios.get(`${url}paging/${this.state.page}`);
       let totalHomes = await axios.get(`${url}/totalCount`);
-      console.log(totalHomes);
       this.setState({
         homes: response.data,
         updated: true,
@@ -99,6 +100,18 @@ class AllListings extends React.Component {
         </div>
       );
     });
+  };
+
+  changePage = async page => {
+    try {
+      let response = await axios.get(`${url}paging/${page - 1}`);
+      this.setState({
+        page: page,
+        homes: response.data
+      });
+    } catch (err) {
+      console.log(err);
+    }
   };
   render() {
     return (
@@ -241,77 +254,14 @@ class AllListings extends React.Component {
           {this.state.updated ? this.renderHomes() : null}
         </div>
         <div style={{ display: "flex", justifyContent: "center" }}>
-          <nav aria-label="Page navigation example" style={{ maxWidth: "75%" }}>
-            <ul className="pagination" max-size="10">
-              <li className="page-item">
-                <a className="page-link" href="#" aria-label="Previous">
-                  <span aria-hidden="true">&laquo;</span>
-                  <span className="sr-only">Previous</span>
-                </a>
-              </li>
-              <li className="page-item">
-                <a className="page-link" href="#">
-                  1
-                </a>
-              </li>
-              <li className="page-item">
-                <a className="page-link" href="#">
-                  2
-                </a>
-              </li>
-              <li className="page-item">
-                <a className="page-link" href="#">
-                  3
-                </a>
-              </li>
-              <li className="page-item">
-                <a className="page-link" href="#">
-                  3
-                </a>
-              </li>
-              <li className="page-item">
-                <a className="page-link" href="#">
-                  3
-                </a>
-              </li>
-              <li className="page-item">
-                <a className="page-link" href="#">
-                  3
-                </a>
-              </li>
-              <li className="page-item">
-                <a className="page-link" href="#">
-                  3
-                </a>
-              </li>
-              <li className="page-item">
-                <a className="page-link" href="#">
-                  3
-                </a>
-              </li>
-              <li className="page-item">
-                <a className="page-link" href="#">
-                  3
-                </a>
-              </li>
-              <li className="page-item">
-                <a className="page-link" href="#">
-                  3
-                </a>
-              </li>
-              <li className="page-item">
-                <a className="page-link" href="#">
-                  3
-                </a>
-              </li>
-              <li className="page-item">
-                <a className="page-link" href="#" aria-label="Next">
-                  <span aria-hidden="true">&raquo;</span>
-                  <span className="sr-only">Next</span>
-                </a>
-              </li>
-            </ul>
-          </nav>
+          <Pagination
+            showTotal={total => `Total ${total} items`}
+            defaultCurrent={this.state.page + 1}
+            total={this.state.total}
+            pageSize={30}
+            style={{ margin: "100px" }}
+            onChange={page => this.changePage(page)}
+          />
         </div>
       </React.Fragment>
     );
