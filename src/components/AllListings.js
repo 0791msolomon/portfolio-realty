@@ -1,5 +1,7 @@
 import React from "react";
 import axios from "axios";
+import Modal from "react-awesome-modal";
+
 import "rc-pagination/assets/index.css";
 import Pagination from "rc-pagination";
 const url =
@@ -13,7 +15,12 @@ class AllListings extends React.Component {
       updated: false,
       homes: [],
       page: 0,
-      total: 0
+      total: 0,
+      open: false,
+      modalProperty: null,
+      email: "",
+      message: ``,
+      phone: ""
     };
   }
   componentDidMount = async () => {
@@ -31,7 +38,6 @@ class AllListings extends React.Component {
   };
   renderHomes = () => {
     return this.state.homes.map(home => {
-      console.log(home.address.slice(home.address.length - 1, -6));
       let bedrooms;
       let bathrooms;
       if (home.rooms < home.baths) {
@@ -46,8 +52,8 @@ class AllListings extends React.Component {
       priceArr.join("");
       return (
         <div
-          class=" col-lg-4 col-sm-6  "
-          style={{ padding: "2%" }}
+          class=" col-lg-4 col-sm-6  listingContainer"
+          style={{ margin: "2% 0 0 0" }}
           key={home._id}
         >
           <small style={{ float: "left" }}>
@@ -79,7 +85,13 @@ class AllListings extends React.Component {
               alignItems: "flex-start"
             }}
           >
-            <div style={{ display: "flex", flexDirection: "wrap" }}>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "wrap",
+                justifyContent: "space-between"
+              }}
+            >
               <small>
                 <b>{bedrooms}</b> Beds &nbsp;
               </small>
@@ -93,7 +105,12 @@ class AllListings extends React.Component {
             <small style={{ textAlign: "left" }}>{home.address}</small>
             <small>
               <b>
-                <a href="/">Email Agent</a>
+                <a
+                  style={{ color: "blue" }}
+                  onClick={() => this.setModal(home)}
+                >
+                  Email Agent
+                </a>
               </b>
             </small>
           </div>
@@ -101,7 +118,9 @@ class AllListings extends React.Component {
       );
     });
   };
-
+  setModal = home => {
+    this.setState({ modalProperty: home, open: true });
+  };
   changePage = async page => {
     try {
       let response = await axios.get(`${url}paging/${page - 1}`);
@@ -112,6 +131,9 @@ class AllListings extends React.Component {
     } catch (err) {
       console.log(err);
     }
+  };
+  closeModal = () => {
+    this.setState({ open: false });
   };
   render() {
     return (
@@ -235,12 +257,60 @@ class AllListings extends React.Component {
             </div>
           </div>
         </div>
-        <h3 className="col-10" style={{ textAlign: "left" }}>
-          View our current listings
-        </h3>
-        <h5 className="col-10" style={{ textAlign: "left" }}>
-          {this.state.total} Homes
-        </h5>
+        <div
+          style={{
+            marginLeft: "2%",
+            marginRight: "5%",
+            display: "flex",
+            flexDirection: "row",
+            flexWrap: "wrap",
+            justifyContent: "space-between"
+          }}
+        >
+          <div
+            style={{
+              flexDirection: "column"
+            }}
+          >
+            <h3 className="col-12" style={{ textAlign: "left" }}>
+              <b> View our current listings</b>
+            </h3>
+            <h5 className="col-12" style={{ textAlign: "left" }}>
+              {this.state.total} Homes
+            </h5>
+          </div>
+          <div className="dropdown">
+            <button
+              className="btn btn-secondary dropdown-toggle"
+              type="button"
+              style={{
+                backgroundColor: "transparent",
+                border: "none",
+                color: "gray"
+              }}
+              id="dropdownMenuButton"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >
+              Sort by
+            </button>
+            <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <a className="dropdown-item" href="#">
+                Newest Listings
+              </a>
+              <a className="dropdown-item" href="#">
+                Lowest Price
+              </a>
+              <a className="dropdown-item" href="#">
+                Highest Price
+              </a>
+              <a className="dropdown-item" href="#">
+                Largest Sqft
+              </a>
+            </div>
+          </div>
+        </div>
         <div
           style={{
             width: "100%",
@@ -255,7 +325,7 @@ class AllListings extends React.Component {
         </div>
         <div style={{ display: "flex", justifyContent: "center" }}>
           <Pagination
-            showTotal={total => `Total ${total} items`}
+            showTotal={total => `Total ${total} listings`}
             defaultCurrent={this.state.page + 1}
             total={this.state.total}
             pageSize={30}
@@ -263,6 +333,84 @@ class AllListings extends React.Component {
             onChange={page => this.changePage(page)}
           />
         </div>
+        <button onClick={() => this.setState({ open: true })}>open</button>
+        <Modal
+          visible={this.state.open}
+          width="400"
+          height="550"
+          effect="fadeInUp"
+          onClickAway={() => this.closeModal()}
+        >
+          <div>
+            <br />
+            <h5>Find out more about this property</h5>
+            <img
+              src={
+                this.state.modalProperty ? this.state.modalProperty.img : null
+              }
+              style={{ height: "225px", width: "300px" }}
+              alt="house"
+            />
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                height: "100%"
+              }}
+            >
+              <form
+                className="col-10"
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "space-around"
+                }}
+              >
+                <input
+                  class="form-control"
+                  type="text"
+                  placeholder="Full Name"
+                  style={{ marginTop: "3%" }}
+                />
+                <input
+                  class="form-control"
+                  type="email"
+                  placeholder="Email"
+                  style={{ marginTop: "3%" }}
+                />
+                <input
+                  class="form-control"
+                  type="text"
+                  placeholder="Phone"
+                  style={{ marginTop: "3%" }}
+                />
+                <textarea
+                  style={{ marginTop: "3%" }}
+                  cols="30"
+                  className="form-control"
+                  placeholder={
+                    !this.state.modalProperty
+                      ? null
+                      : `I would like more info on ${
+                          this.state.modalProperty.address
+                        }`
+                  }
+                />
+                <button
+                  className="form-control btn-danger"
+                  style={{
+                    borderRadius: "30px",
+                    marginTop: "3%",
+                    color: "white",
+                    fontWeight: "bold"
+                  }}
+                >
+                  Email Agent
+                </button>
+              </form>
+            </div>
+          </div>
+        </Modal>
       </React.Fragment>
     );
   }
