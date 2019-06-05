@@ -64,6 +64,7 @@ class TypeAhead extends React.Component {
     return (
       <div className="col-lg-4 col-sm-10">
         <Typeahead
+          id="typeAhead"
           onChange={selected => {
             this.props.change(selected);
           }}

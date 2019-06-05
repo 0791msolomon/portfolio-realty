@@ -80,3 +80,7 @@
 .listingContainer:hover {
   cursor: pointer;
 }
+
+.closeModal:hover {
+  cursor: pointer;
+}

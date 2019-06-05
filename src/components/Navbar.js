@@ -4,11 +4,7 @@ import { Link } from "react-router-dom";
 const Navbar = props => {
   return (
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <a
-        class="navbar-brand"
-        href="https://matthew-s-portfolio-landing.herokuapp.com"
-        target="_blank"
-      >
+      <Link class="navbar-brand" to="/">
         <img
           src={logo}
           width="30"
@@ -17,7 +13,7 @@ const Navbar = props => {
           style={{ borderRadius: "25%" }}
           alt="redirect to landing page"
         />
-      </a>
+      </Link>
       <button
         class="navbar-toggler"
         type="button"
@@ -34,7 +30,7 @@ const Navbar = props => {
           <span
             style={{ fontFamily: "Optima, sans-serif", fontWeight: "bold" }}
           >
-            Realty Page
+            Mock Realty
           </span>
         </Link>
         <ul class="navbar-nav mr-auto mt-2 mt-lg-0">

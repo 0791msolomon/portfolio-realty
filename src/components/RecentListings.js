@@ -105,17 +105,17 @@ class RecentListings extends React.Component {
               <span style={{ color: "black" }}>All Listings</span>
             </h3>
           </Link>
-          <Link className="col-lg-3 col-sm-12">
+          <Link className="col-lg-3 col-sm-12" to="/">
             <h3>
               7 <span style={{ color: "black" }}>Open Houses</span>
             </h3>
           </Link>
-          <Link className="col-lg-3 col-sm-12">
+          <Link className="col-lg-3 col-sm-12" to="/">
             <h3>
               114 <span style={{ color: "black" }}>Recently Sold</span>
             </h3>
           </Link>
-          <Link className="col-lg-3 col-sm-12">
+          <Link className="col-lg-3 col-sm-12" to="/">
             <h3>
               46 <span style={{ color: "black" }}>Price Reduced</span>
             </h3>

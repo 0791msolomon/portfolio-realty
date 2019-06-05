@@ -1,11 +1,18 @@
 import React from "react";
 import axios from "axios";
 import Modal from "react-awesome-modal";
-
+import { EmailInput, NameInput } from "./ContactInputs";
 import "rc-pagination/assets/index.css";
 import Pagination from "rc-pagination";
-const url =
-  process.env.REACT_APP_BASEURL || "http://localhost:5000/api/realty/";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { connect } from "react-redux";
+import { selectHome } from "../actions";
+import { withRouter } from "react-router-dom";
+
+const validator = require("email-validator");
+const url = process.env.REACT_APP_BASEURL || "http://localhost:5000";
+
 class AllListings extends React.Component {
   constructor(props) {
     super(props);
@@ -20,13 +27,17 @@ class AllListings extends React.Component {
       modalProperty: null,
       email: "",
       message: ``,
-      phone: ""
+      name: "",
+      errors: {}
     };
   }
   componentDidMount = async () => {
+    window.scrollTo(0, 0);
     try {
-      let response = await axios.get(`${url}paging/${this.state.page}`);
-      let totalHomes = await axios.get(`${url}/totalCount`);
+      let response = await axios.get(
+        `${url}/api/realty/paging/${this.state.page}`
+      );
+      let totalHomes = await axios.get(`${url}/api/realty/totalCount`);
       this.setState({
         homes: response.data,
         updated: true,
@@ -59,7 +70,7 @@ class AllListings extends React.Component {
           <small style={{ float: "left" }}>
             {"Brokered by <Realty company name here>"}
           </small>
-          <div className="picContainer">
+          <div className="picContainer" onClick={() => this.viewHome(home)}>
             <img
               class="pic"
               src={home.img}
@@ -118,12 +129,16 @@ class AllListings extends React.Component {
       );
     });
   };
+  viewHome = async home => {
+    await this.props.selectHome(home);
+    this.props.history.push(`/listing/${home._id}`);
+  };
   setModal = home => {
     this.setState({ modalProperty: home, open: true });
   };
   changePage = async page => {
     try {
-      let response = await axios.get(`${url}paging/${page - 1}`);
+      let response = await axios.get(`${url}/api/realty/paging/${page - 1}`);
       this.setState({
         page: page,
         homes: response.data
@@ -133,11 +148,71 @@ class AllListings extends React.Component {
     }
   };
   closeModal = () => {
-    this.setState({ open: false });
+    this.setState({ open: false, email: "", name: "", phone: null });
+  };
+  onChange = e => {
+    this.setState({
+      [e.target.name]: e.target.value
+    });
+  };
+  sendEmail = e => {
+    e.preventDefault();
+    let { phone, email, name } = this.state;
+    if (name.trim().length === 0) {
+      return this.setState({
+        errors: { name: "You must enter a name" }
+      });
+    }
+    if (email.trim() === "" || !validator.validate(email)) {
+      return this.setState({
+        errors: { email: "Please enter valid Email" }
+      });
+    }
+    axios
+      .post(`${url}/api/contactForm`, {
+        company: this.state.email,
+        name: this.state.name
+      })
+      .then(res => {
+        this.setState({ email: "", name: "", open: false });
+        return toast.info("Request sent", {
+          position: "top-right",
+          autoClose: 2300,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true
+        });
+      })
+      .catch(err => {
+        console.log(err);
+        return toast.error("Try again later", {
+          position: "top-right",
+          autoClose: 2300,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true
+        });
+      });
+    this.setState({
+      errors: {}
+    });
   };
   render() {
     return (
       <React.Fragment>
+        <ToastContainer
+          position="top-right"
+          autoClose={1900}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnVisibilityChange
+          draggable
+          pauseOnHover
+        />
         <div
           style={{
             minHeight: "75px",
@@ -177,14 +252,14 @@ class AllListings extends React.Component {
                   <input
                     type="text"
                     className="form-control"
-                    placeholder="$Min"
+                    placeholder="Min"
                   />
                 </div>
                 <div className="col-6">
                   <input
                     type="text"
                     className="form-control"
-                    placeholder="$Max"
+                    placeholder="Max"
                   />
                 </div>
               </form>
@@ -275,7 +350,7 @@ class AllListings extends React.Component {
             <h3 className="col-12" style={{ textAlign: "left" }}>
               <b> View our current listings</b>
             </h3>
-            <h5 className="col-12" style={{ textAlign: "left" }}>
+            <h5 className="col-12" style={{ textAlign: "left", color: "blue" }}>
               {this.state.total} Homes
             </h5>
           </div>
@@ -333,7 +408,6 @@ class AllListings extends React.Component {
             onChange={page => this.changePage(page)}
           />
         </div>
-        <button onClick={() => this.setState({ open: true })}>open</button>
         <Modal
           visible={this.state.open}
           width="400"
@@ -343,7 +417,19 @@ class AllListings extends React.Component {
         >
           <div>
             <br />
-            <h5>Find out more about this property</h5>
+            <span
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                flexWrap: "nowrap",
+                justifyContent: "space-around"
+              }}
+            >
+              <h5>Find out more about this property</h5>
+              <p onClick={this.closeModal} className="closeModal">
+                <b> x</b>
+              </p>
+            </span>
             <img
               src={
                 this.state.modalProperty ? this.state.modalProperty.img : null
@@ -359,6 +445,7 @@ class AllListings extends React.Component {
               }}
             >
               <form
+                onSubmit={this.sendEmail}
                 className="col-10"
                 style={{
                   display: "flex",
@@ -366,37 +453,32 @@ class AllListings extends React.Component {
                   justifyContent: "space-around"
                 }}
               >
-                <input
-                  class="form-control"
-                  type="text"
-                  placeholder="Full Name"
-                  style={{ marginTop: "3%" }}
+                <NameInput
+                  value={this.state.name}
+                  onChange={value => this.onChange(value)}
+                  error={this.state.errors.name}
                 />
-                <input
-                  class="form-control"
-                  type="email"
-                  placeholder="Email"
-                  style={{ marginTop: "3%" }}
+                <EmailInput
+                  value={this.state.email}
+                  onChange={value => this.onChange(value)}
+                  error={this.state.errors.email}
                 />
-                <input
-                  class="form-control"
-                  type="text"
-                  placeholder="Phone"
-                  style={{ marginTop: "3%" }}
-                />
-                <textarea
-                  style={{ marginTop: "3%" }}
-                  cols="30"
-                  className="form-control"
-                  placeholder={
-                    !this.state.modalProperty
-                      ? null
-                      : `I would like more info on ${
-                          this.state.modalProperty.address
-                        }`
-                  }
-                />
+                <div>
+                  <textarea
+                    style={{ marginTop: "3%" }}
+                    cols="30"
+                    className="form-control"
+                    placeholder={
+                      !this.state.modalProperty
+                        ? null
+                        : `I would like more info on ${
+                            this.state.modalProperty.address
+                          }`
+                    }
+                  />
+                </div>
                 <button
+                  onClick={this.sendEmail}
                   className="form-control btn-danger"
                   style={{
                     borderRadius: "30px",
@@ -415,4 +497,14 @@ class AllListings extends React.Component {
     );
   }
 }
-export default AllListings;
+const mapStateToProps = state => {
+  return {
+    home: state.activeListing
+  };
+};
+export default withRouter(
+  connect(
+    mapStateToProps,
+    { selectHome }
+  )(AllListings)
+);

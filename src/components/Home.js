@@ -4,7 +4,7 @@ import Quote from "./Quote";
 import RecentListings from "./RecentListings";
 import "./index.css";
 import TypeAhead from "./TypeAhead";
-
+import { connect } from "react-redux";
 import Link from "./Link";
 import InfiniteCarousel from "react-leaf-carousel";
 const axios = require("axios");
@@ -15,6 +15,7 @@ class Home extends React.Component {
     this.state = { updated: false, properties: [], search: "", sss: "" };
   }
   componentDidMount = async () => {
+    window.scrollTo(0, 0);
     try {
       let response = await axios.get(`${url}/chunks`);
       this.setState({ updated: true, properties: response.data });
@@ -23,7 +24,6 @@ class Home extends React.Component {
     }
   };
   renderProperties = () => {
-    console.log(this.state.properties);
     return this.state.properties.map(item => {
       let priceArr = item.price.split("");
       priceArr.splice(4, 0, ",");

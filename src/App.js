@@ -6,19 +6,25 @@ import Routes from "./components/Routes";
 import "./index.css";
 import MyLinks from "./components/MyLinks";
 import Footer from "./components/Footer";
-function App() {
-  return (
-    <React.Fragment>
-      <BrowserRouter>
-        <Navbar />
-        <div className="App ">
-          <Routes />
-        </div>
-      </BrowserRouter>
-      <MyLinks />
-      <Footer />
-    </React.Fragment>
-  );
+import FooterLinks from "./components/FooterLinks";
+import { connect } from "react-redux";
+class App extends React.Component {
+  state = {};
+  render() {
+    return (
+      <React.Fragment>
+        <BrowserRouter>
+          <Navbar />{" "}
+          <div className="App ">
+            <Routes />
+          </div>
+        </BrowserRouter>
+        <FooterLinks />
+        <MyLinks />
+        <Footer />
+      </React.Fragment>
+    );
+  }
 }
 
 export default App;

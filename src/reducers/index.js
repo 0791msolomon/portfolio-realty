@@ -1,7 +1,7 @@
 import { combineReducers } from "redux";
-
+import ActiveListing from "./ActiveListing";
 const rootReducer = combineReducers({
-  info: []
+  activeListing: ActiveListing
 });
 
 export default rootReducer;
