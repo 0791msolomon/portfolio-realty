@@ -1,7 +1,14 @@
 import React from "react";
 import logo from "./photos/logo.png";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
 const Navbar = props => {
+  console.log("this one", props.favorites);
+  let arr = [];
+  if (props.favorites.length > 0) {
+    arr = [...new Set(props.favorites)];
+  }
+
   return (
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <Link class="navbar-brand" to="/">
@@ -49,12 +56,19 @@ const Navbar = props => {
               Rent
             </a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link  " href="#">
+              {arr.length > 0 ? `Favorites (${arr.length})` : "Favorites (0)"}
+            </a>
+          </li>
         </ul>
       </div>
     </nav>
   );
 };
-export default Navbar;
-{
-  /**/
-}
+const mapStateToProps = ({ favorites }) => {
+  return {
+    favorites
+  };
+};
+export default connect(mapStateToProps)(Navbar);
