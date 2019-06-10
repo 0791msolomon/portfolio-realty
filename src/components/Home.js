@@ -5,6 +5,8 @@ import RecentListings from "./RecentListings";
 import "./index.css";
 import TypeAhead from "./TypeAhead";
 import { connect } from "react-redux";
+import { selectHome } from "../actions";
+import { withRouter } from "react-router-dom";
 import Link from "./Link";
 import InfiniteCarousel from "react-leaf-carousel";
 const axios = require("axios");
@@ -23,13 +25,21 @@ class Home extends React.Component {
       console.log(err);
     }
   };
+  viewHome = async home => {
+    await this.props.selectHome(home);
+    this.props.history.push(`/listing/${home._id}`);
+  };
   renderProperties = () => {
     return this.state.properties.map(item => {
       let priceArr = item.price.split("");
       priceArr.splice(4, 0, ",");
       priceArr.join("");
       return (
-        <div key={item._id} className="picContainer">
+        <div
+          key={item._id}
+          className="picContainer"
+          onClick={() => this.viewHome(item)}
+        >
           <img
             className="pic"
             src={item.img}
@@ -174,4 +184,9 @@ class Home extends React.Component {
   }
 }
 
-export default Home;
+export default withRouter(
+  connect(
+    null,
+    { selectHome }
+  )(Home)
+);

@@ -8,6 +8,8 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Modal from "react-awesome-modal";
 import { EmailInput, NameInput } from "./ContactInputs";
+import Collapsible from "react-collapsible";
+import moment from "moment";
 const url = process.env.REACT_APP_BASEURL || "http://localhost:5000";
 
 class IndividualListing extends React.Component {
@@ -19,12 +21,17 @@ class IndividualListing extends React.Component {
       name: "",
       email: "",
       question: "",
-      errors: {}
+      errors: {},
+      openOne: new Date().setDate(new Date().getDate() + 2),
+      openTwo: new Date().setDate(new Date().getDate() + 4),
+      openThree: new Date().setDate(new Date().getDate() + 6)
     };
   }
   componentDidMount = () => {
     window.scrollTo(0, 0);
+    console.log(this.props.activeListing);
   };
+
   onChange = e => {
     this.setState({
       [e.target.name]: e.target.value
@@ -101,10 +108,22 @@ class IndividualListing extends React.Component {
     });
   };
   render() {
+    let adjusted = this.props.activeListing.price.toString().split("");
+    adjusted.shift();
+    let newAdjusted = adjusted.join("");
+    newAdjusted -= 20000;
+    newAdjusted.toString();
+    let adjustArray = newAdjusted.split("");
+    adjustArray.splice(3, 0, ",");
+    adjustArray.join("");
+    console.log(adjustArray);
+    let changeDateOne = new Date().setMonth(new Date().getMonth() - 8);
+    let changeDateTwo = new Date().setMonth(new Date().getMonth() - 5);
+    let changeDateThree = new Date().setMonth(new Date().getMonth() - 2);
     let priceArr;
     let footage;
     let pricePerFoot = 0;
-
+    let address;
     if (this.props.activeListing.footage) {
       let arr = this.props.activeListing.footage.toString().split("");
       arr.splice(arr.length - 3, 0, ",");
@@ -113,12 +132,18 @@ class IndividualListing extends React.Component {
       let value = this.props.activeListing.price.split("");
       let num = value.splice(1, value.length - 1);
       pricePerFoot = num.join("") / this.props.activeListing.footage;
-    }
-    if (this.props.activeListing.price) {
+
+      address = this.props.activeListing.address.split(" ");
+      for (let char in address) {
+        char = ` ${char} `;
+      }
+      address[address.length - 2] = this.props.activeListing.state + " ";
+
       priceArr = this.props.activeListing.price.split("");
       priceArr.splice(4, 0, ",");
       priceArr.join("");
     }
+
     return (
       <div
         className="container"
@@ -182,9 +207,7 @@ class IndividualListing extends React.Component {
           >
             <h3>{this.props.activeListing.price ? priceArr : null}</h3>
             <h6>
-              {this.props.activeListing.address
-                ? this.props.activeListing.address
-                : null}
+              {this.props.activeListing.address ? address.join(" ") : null}
             </h6>
             <span
               style={{
@@ -259,6 +282,99 @@ class IndividualListing extends React.Component {
             <b> Price per square foot:</b> {`$${Math.ceil(pricePerFoot)}`}
           </small>
         </div>
+        <Collapsible trigger="Open Houses" style={{ textAlign: "left" }}>
+          <ul
+            style={{
+              alignItems: "flex-start",
+              listStyle: "none",
+              fontWeight: "bold",
+              display: "flex",
+              flexDirection: "column"
+            }}
+          >
+            <p
+              style={{ textAlign: "left", fontWeight: "bold", marginTop: "1%" }}
+            >
+              Come view us on {moment(this.state.openOne).format("l")} at 3pm
+            </p>
+            <p
+              style={{ textAlign: "left", fontWeight: "bold", marginTop: "1%" }}
+            >
+              Come view us on {moment(this.state.openTwo).format("l")} at 3pm
+            </p>
+            <p
+              style={{ textAlign: "left", fontWeight: "bold", marginTop: "1%" }}
+            >
+              Come view us on {moment(this.state.openThree).format("l")} at 3pm
+            </p>
+          </ul>
+        </Collapsible>
+        <Collapsible trigger="Property Details" style={{ textAlign: "left" }}>
+          <p style={{ textAlign: "left", fontWeight: "bold" }}>
+            {`${this.props.activeListing.rooms} bedroom, ${
+              this.props.activeListing.baths
+            } bath Manufactured home on generous treed lot with fenced yard and mountain view. 
+            Would make a great rental or starter home. Possible financing options through Private Lender. 
+            Don't miss this opportunity to own a home in Flagstaff for only ${this.props.activeListing.price.substring(
+              0,
+              4
+            ) || 0}k !`}
+          </p>
+          <h5 style={{ textAlign: "left" }}>Property Features</h5>
+          <h6 style={{ textAlign: "left" }}>Bedrooms</h6>
+          <p style={{ textAlign: "left", fontWeight: "bold" }}>
+            {this.props.activeListing.rooms}
+          </p>
+          <h6 style={{ textAlign: "left" }}>Bathrooms</h6>
+          <p style={{ textAlign: "left", fontWeight: "bold" }}>
+            {this.props.activeListing.baths}
+          </p>
+          <h6 style={{ textAlign: "left" }}>Size</h6>
+          <p style={{ textAlign: "left", fontWeight: "bold" }}>
+            {footage} sq ft
+          </p>
+        </Collapsible>
+        <Collapsible trigger="Property History" style={{ textAlign: "left" }}>
+          <small>
+            (There's no real data since this is a mock site, but if there were
+            it'd go here)
+          </small>
+          <h5 style={{ textAlign: "left" }}>Property History</h5>
+          <div className="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">Date</th>
+                  <th scope="col">Event</th>
+                  <th scope="col">Price</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">{moment(changeDateOne).format("l")}</th>
+                  <td>Listed</td>
+                  <td>{`$${0}`}</td>
+                </tr>
+                <tr>
+                  <th scope="row">{moment(changeDateTwo).format("l")}</th>
+                  <td>Sold</td>
+                  <td>Sold</td>
+                </tr>
+                <tr>
+                  <th scope="row">{moment(changeDateThree).format("l")}</th>
+                  <td>Price changed</td>
+                  <td>{priceArr}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </Collapsible>
+        <Collapsible trigger="Nearby Schools" style={{ textAlign: "left" }}>
+          <p style={{ textAlign: "left" }}>
+            It can even be another Collapsible component. Check out the next
+            section!
+          </p>
+        </Collapsible>
         <Modal
           visible={this.state.open}
           width="400"
@@ -321,7 +437,7 @@ class IndividualListing extends React.Component {
                     style={{ marginTop: "3%" }}
                     cols="30"
                     className="form-control"
-                    placeholder={"Your Question"}
+                    placeholder={`I woud like more information on this property}`}
                     name="question"
                     value={this.state.question}
                     onChange={e => this.onChange(e)}

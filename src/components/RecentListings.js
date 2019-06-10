@@ -1,6 +1,10 @@
 import React from "react";
 import "./index.css";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+import { selectHome } from "../actions";
+import { withRouter } from "react-router-dom";
+
 const axios = require("axios");
 const url = process.env.REACT_APP_BASEURL || "http://localhost:5000/api/realty";
 class RecentListings extends React.Component {
@@ -21,6 +25,11 @@ class RecentListings extends React.Component {
       console.log(err);
     }
   };
+  viewHome = async home => {
+    console.log(home);
+    await this.props.selectHome(home);
+    this.props.history.push(`/listing/${home._id}`);
+  };
   renderHomes = () => {
     return this.state.homes.map(item => {
       let priceArr = item.price.split("");
@@ -30,6 +39,7 @@ class RecentListings extends React.Component {
         <div
           className="col-lg-2 col-md-6 col-sm-12 picContainer"
           key={item._id}
+          onClick={() => this.viewHome(item)}
         >
           <img
             className="pic"
@@ -125,4 +135,9 @@ class RecentListings extends React.Component {
     );
   }
 }
-export default RecentListings;
+export default withRouter(
+  connect(
+    null,
+    { selectHome }
+  )(RecentListings)
+);
