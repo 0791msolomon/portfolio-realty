@@ -24,14 +24,32 @@ class IndividualListing extends React.Component {
       errors: {},
       openOne: new Date().setDate(new Date().getDate() + 2),
       openTwo: new Date().setDate(new Date().getDate() + 4),
-      openThree: new Date().setDate(new Date().getDate() + 6)
+      openThree: new Date().setDate(new Date().getDate() + 6),
+      yearBuilt: Math.floor(Math.random() * 48) + 1970
     };
   }
+  componentWillMount = () => {
+    let priceArr = this.props.activeListing.price.split("");
+    priceArr.shift();
+    let price = priceArr.join("");
+    price -= 10000;
+    let priceString = price.toString();
+    // priceString.split("");
+    let priceStringArr = priceString.split("");
+    priceStringArr.unshift("$");
+    priceStringArr.splice(4, 0, ",");
+    this.setState({
+      oldPrice: priceStringArr.join("")
+    });
+  };
   componentDidMount = () => {
     window.scrollTo(0, 0);
     console.log(this.props.activeListing);
   };
-  shouldComponentUpdate = () => {
+  shouldComponentUpdate = (nextProps, nextState) => {
+    if (nextState.open !== this.state.open) {
+      return true;
+    }
     return false;
   };
   onChange = e => {
@@ -280,7 +298,7 @@ class IndividualListing extends React.Component {
             <b> Property Type:</b> Single Family Home
           </small>
           <small style={{ textAlign: "left" }}>
-            <b> Year Built:</b> {Math.floor(Math.random() * 48) + 1970}
+            <b> Year Built:</b> {this.state.yearBuilt || 0}
           </small>
           <small style={{ textAlign: "left" }}>
             <b> Price per square foot:</b> {`$${Math.ceil(pricePerFoot)}`}
@@ -315,14 +333,14 @@ class IndividualListing extends React.Component {
         </Collapsible>
         <Collapsible trigger="Property Details" style={{ textAlign: "left" }}>
           <p style={{ textAlign: "left", fontWeight: "bold" }}>
-            {/* {`${this.props.activeListing.rooms} bedroom, ${
-this.props.activeListing.baths
-} bath Manufactured home on generous treed lot with fenced yard and mountain view. 
-Would make a great rental or starter home. Possible financing options through Private Lender. 
-Don't miss this opportunity to own a home in Flagstaff for only ${this.props.activeListing.price.substring(
-0,
-4
-            ) || 0}k !`} */}
+            {`${this.props.activeListing.rooms} bedroom, ${
+              this.props.activeListing.baths
+            } bath Manufactured home on generous treed lot with fenced yard and mountain view. 
+              Would make a great rental or starter home. Possible financing options through Private Lender. 
+              Don't miss this opportunity to own a home in Flagstaff for only ${this.props.activeListing.price.substring(
+                0,
+                4
+              ) || 0}k !`}
           </p>
           <h5 style={{ textAlign: "left" }}>Property Features</h5>
           <h6 style={{ textAlign: "left" }}>Bedrooms</h6>
@@ -357,12 +375,12 @@ Don't miss this opportunity to own a home in Flagstaff for only ${this.props.act
                 <tr>
                   <th scope="row">{moment(changeDateOne).format("l")}</th>
                   <td>Listed</td>
-                  <td>{`$${0}`}</td>
+                  <td>{`${this.state.oldPrice}`}</td>
                 </tr>
                 <tr>
                   <th scope="row">{moment(changeDateTwo).format("l")}</th>
                   <td>Sold</td>
-                  <td>Sold</td>
+                  <td>{`${this.state.oldPrice}`}</td>
                 </tr>
                 <tr>
                   <th scope="row">{moment(changeDateThree).format("l")}</th>
