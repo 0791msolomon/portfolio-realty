@@ -31,7 +31,9 @@ class IndividualListing extends React.Component {
     window.scrollTo(0, 0);
     console.log(this.props.activeListing);
   };
-
+  shouldComponentUpdate = () => {
+    return false;
+  };
   onChange = e => {
     this.setState({
       [e.target.name]: e.target.value
@@ -108,15 +110,17 @@ class IndividualListing extends React.Component {
     });
   };
   render() {
-    let adjusted = this.props.activeListing.price.toString().split("");
-    adjusted.shift();
-    let newAdjusted = adjusted.join("");
-    newAdjusted -= 20000;
-    newAdjusted.toString();
-    let adjustArray = newAdjusted.split("");
-    adjustArray.splice(3, 0, ",");
-    adjustArray.join("");
-    console.log(adjustArray);
+    //this is a giagantic mess, hindsight being 20/20 i would've left out the
+    // "$" in the collection documents and saved myself tons of stupid work like this
+    // let adjusted = this.props.activeListing.price.toString().split("");
+    // adjusted.shift();
+    // let newAdjusted = adjusted.join("");
+    // newAdjusted -= 20000;
+    // newAdjusted.toString();
+    // let adjustArray = newAdjusted.split("");
+    // adjustArray.splice(3, 0, ",");
+    // adjustArray.join("");
+    // console.log(adjustArray);
     let changeDateOne = new Date().setMonth(new Date().getMonth() - 8);
     let changeDateTwo = new Date().setMonth(new Date().getMonth() - 5);
     let changeDateThree = new Date().setMonth(new Date().getMonth() - 2);
@@ -311,14 +315,14 @@ class IndividualListing extends React.Component {
         </Collapsible>
         <Collapsible trigger="Property Details" style={{ textAlign: "left" }}>
           <p style={{ textAlign: "left", fontWeight: "bold" }}>
-            {`${this.props.activeListing.rooms} bedroom, ${
-              this.props.activeListing.baths
-            } bath Manufactured home on generous treed lot with fenced yard and mountain view. 
-            Would make a great rental or starter home. Possible financing options through Private Lender. 
-            Don't miss this opportunity to own a home in Flagstaff for only ${this.props.activeListing.price.substring(
-              0,
-              4
-            ) || 0}k !`}
+            {/* {`${this.props.activeListing.rooms} bedroom, ${
+this.props.activeListing.baths
+} bath Manufactured home on generous treed lot with fenced yard and mountain view. 
+Would make a great rental or starter home. Possible financing options through Private Lender. 
+Don't miss this opportunity to own a home in Flagstaff for only ${this.props.activeListing.price.substring(
+0,
+4
+            ) || 0}k !`} */}
           </p>
           <h5 style={{ textAlign: "left" }}>Property Features</h5>
           <h6 style={{ textAlign: "left" }}>Bedrooms</h6>
