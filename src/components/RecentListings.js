@@ -26,7 +26,6 @@ class RecentListings extends React.Component {
     }
   };
   viewHome = async home => {
-    console.log(home);
     await this.props.selectHome(home);
     this.props.history.push(`/listing/${home._id}`);
   };

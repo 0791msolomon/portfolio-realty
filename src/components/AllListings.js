@@ -148,7 +148,13 @@ class AllListings extends React.Component {
     }
   };
   closeModal = () => {
-    this.setState({ open: false, email: "", name: "", phone: null });
+    this.setState({
+      open: false,
+      email: "",
+      name: "",
+      phone: null,
+      errors: {}
+    });
   };
   onChange = e => {
     this.setState({

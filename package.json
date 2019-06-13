@@ -6,6 +6,7 @@
     "axios": "^0.18.0",
     "classnames": "^2.2.6",
     "email-validator": "^2.0.4",
+    "google-maps-react": "^2.0.2",
     "moment": "^2.24.0",
     "rc-pagination": "^1.20.1",
     "react": "^16.8.6",

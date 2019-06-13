@@ -29,18 +29,20 @@ class IndividualListing extends React.Component {
     };
   }
   componentWillMount = () => {
-    let priceArr = this.props.activeListing.price.split("");
-    priceArr.shift();
-    let price = priceArr.join("");
-    price -= 10000;
-    let priceString = price.toString();
-    // priceString.split("");
-    let priceStringArr = priceString.split("");
-    priceStringArr.unshift("$");
-    priceStringArr.splice(4, 0, ",");
-    this.setState({
-      oldPrice: priceStringArr.join("")
-    });
+    if (Object.keys(this.props.activeListing).length > 0) {
+      let priceArr = this.props.activeListing.price.split("");
+      priceArr.shift();
+      let price = priceArr.join("");
+      price -= 10000;
+      let priceString = price.toString();
+      // priceString.split("");
+      let priceStringArr = priceString.split("");
+      priceStringArr.unshift("$");
+      priceStringArr.splice(4, 0, ",");
+      this.setState({
+        oldPrice: priceStringArr.join("")
+      });
+    }
   };
   componentDidMount = () => {
     window.scrollTo(0, 0);
@@ -333,14 +335,15 @@ class IndividualListing extends React.Component {
         </Collapsible>
         <Collapsible trigger="Property Details" style={{ textAlign: "left" }}>
           <p style={{ textAlign: "left", fontWeight: "bold" }}>
-            {`${this.props.activeListing.rooms} bedroom, ${
-              this.props.activeListing.baths
-            } bath Manufactured home on generous treed lot with fenced yard and mountain view. 
+            {`${this.props.activeListing.rooms || 0} bedroom, ${this.props
+              .activeListing.baths ||
+              0} bath Manufactured home on generous treed lot with fenced yard and mountain view. 
               Would make a great rental or starter home. Possible financing options through Private Lender. 
-              Don't miss this opportunity to own a home in Flagstaff for only ${this.props.activeListing.price.substring(
-                0,
-                4
-              ) || 0}k !`}
+              Don't miss this opportunity to own a home in Flagstaff for only ${
+                Object.keys(this.props.activeListing).length > 0
+                  ? this.props.activeListing.price.substring(0, 4)
+                  : null
+              }k !`}
           </p>
           <h5 style={{ textAlign: "left" }}>Property Features</h5>
           <h6 style={{ textAlign: "left" }}>Bedrooms</h6>
@@ -392,11 +395,95 @@ class IndividualListing extends React.Component {
           </div>
         </Collapsible>
         <Collapsible trigger="Nearby Schools" style={{ textAlign: "left" }}>
-          <p style={{ textAlign: "left" }}>
-            It can even be another Collapsible component. Check out the next
-            section!
-          </p>
+          <div
+            className="col-12"
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "flex-start",
+              flexWrap: "wrap"
+            }}
+          >
+            <div
+              className="col-lg-3 col-sm-12"
+              style={{ display: "flex", flexDirection: "column" }}
+            >
+              <h6 style={{ alignSelf: "flex-start" }}>Rating</h6>
+              <small className="school" style={{ alignSelf: "flex-start" }}>
+                7
+              </small>
+              <small
+                className="school"
+                style={{ marginTop: "3%", alignSelf: "flex-start" }}
+              >
+                6
+              </small>
+              <small
+                className="school"
+                style={{ marginTop: "3%", alignSelf: "flex-start" }}
+              >
+                9
+              </small>
+              <small
+                className="school"
+                style={{ marginTop: "3%", alignSelf: "flex-start" }}
+              >
+                4
+              </small>
+            </div>
+            <div
+              className="col-lg-3 col-sm-12"
+              style={{ display: "flex", flexDirection: "column" }}
+            >
+              <h6 style={{ alignSelf: "flex-start" }}>School Name</h6>
+              <small style={{ alignSelf: "flex-start" }}>
+                Lincoln Elementary
+              </small>
+              <small style={{ marginTop: "3%", alignSelf: "flex-start" }}>
+                Royalview middle
+              </small>
+              <small style={{ marginTop: "3%", alignSelf: "flex-start" }}>
+                Washington High
+              </small>
+              <small style={{ marginTop: "3%", alignSelf: "flex-start" }}>
+                Jefferson
+              </small>
+            </div>
+            <div
+              className="col-lg-3 col-sm-12"
+              style={{ display: "flex", flexDirection: "column" }}
+            >
+              <h6 style={{ alignSelf: "flex-start" }}>Grades</h6>
+              <small style={{ alignSelf: "flex-start" }}>k-5</small>
+              <small style={{ marginTop: "3%", alignSelf: "flex-start" }}>
+                6-9
+              </small>
+              <small style={{ marginTop: "3%", alignSelf: "flex-start" }}>
+                9-12
+              </small>
+              <small style={{ marginTop: "3%", alignSelf: "flex-start" }}>
+                k-9
+              </small>
+            </div>
+            <div
+              className="col-lg-3 col-sm-12"
+              style={{ display: "flex", flexDirection: "column" }}
+            >
+              <h6 style={{ alignSelf: "flex-start" }}>Distance</h6>
+              <small style={{ alignSelf: "flex-start" }}>.7 miles</small>
+              <small style={{ marginTop: "3%", alignSelf: "flex-start" }}>
+                6.2 miles
+              </small>
+              <small style={{ marginTop: "3%", alignSelf: "flex-start" }}>
+                9.1 miles
+              </small>
+              <small style={{ marginTop: "3%", alignSelf: "flex-start" }}>
+                4.3 miles
+              </small>
+            </div>
+          </div>
         </Collapsible>
+
         <Modal
           visible={this.state.open}
           width="400"

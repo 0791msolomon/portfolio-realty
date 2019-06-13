@@ -151,6 +151,21 @@
   opacity: 0.5;
   background-color: grey;
 }
+.school {
+  background: #cccccc;
+  border-radius: 0.8em;
+  -moz-border-radius: 0.8em;
+  -webkit-border-radius: 0.8em;
+  color: #ffffff;
+  display: inline-block;
+  font-weight: bold;
+  line-height: 1.6em;
+  margin-right: 5px;
+  /* text-align: center; */
+  align-self: center;
+  width: 1.6em;
+}
+
 @media (max-width: 640px) {
   #test {
     display: none;

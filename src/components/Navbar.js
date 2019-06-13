@@ -57,9 +57,9 @@ const Navbar = props => {
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link  " href="#">
+            <Link class="nav-link  " to="/favorites">
               {arr.length > 0 ? `Favorites (${arr.length})` : "Favorites (0)"}
-            </a>
+            </Link>
           </li>
         </ul>
       </div>
