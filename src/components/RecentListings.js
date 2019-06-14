@@ -6,7 +6,7 @@ import { selectHome } from "../actions";
 import { withRouter } from "react-router-dom";
 
 const axios = require("axios");
-const url = process.env.REACT_APP_BASEURL || "http://localhost:5000/api/realty";
+const url = process.env.REACT_APP_BASEURL || "http://localhost:5000";
 class RecentListings extends React.Component {
   constructor(props) {
     super(props);
@@ -14,7 +14,7 @@ class RecentListings extends React.Component {
   }
   componentDidMount = async () => {
     try {
-      let recent = await axios.get(`${url}/recentListings`);
+      let recent = await axios.get(`${url}/api/realty/recentListings`);
       let all = await axios.get(url);
       this.setState({
         homes: recent.data,

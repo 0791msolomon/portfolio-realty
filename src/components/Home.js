@@ -10,7 +10,7 @@ import { withRouter } from "react-router-dom";
 import Link from "./Link";
 import InfiniteCarousel from "react-leaf-carousel";
 const axios = require("axios");
-const url = process.env.REACT_APP_BASEURL || "http://localhost:5000/api/realty";
+const url = process.env.REACT_APP_BASEURL || "http://localhost:5000";
 class Home extends React.Component {
   constructor(props) {
     super(props);
@@ -19,7 +19,7 @@ class Home extends React.Component {
   componentDidMount = async () => {
     window.scrollTo(0, 0);
     try {
-      let response = await axios.get(`${url}/chunks`);
+      let response = await axios.get(`${url}/api/realty/chunks`);
       this.setState({ updated: true, properties: response.data });
     } catch (err) {
       console.log(err);
