@@ -5,6 +5,9 @@ import Modal from "react-awesome-modal";
 import { EmailInput, NameInput } from "./ContactInputs";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { selectHome, removeFavorite } from "../actions";
+import "./index.css";
+import { async } from "q";
 const validator = require("email-validator");
 
 const url = process.env.REACT_APP_BASEURL || "http://localhost:5000";
@@ -25,7 +28,7 @@ class Favorites extends React.Component {
   }
   componentDidMount = () => {
     window.scrollTo(0, 0);
-    console.log(this.props.favorites);
+    console.log("favorites page", this.props.favorites);
     let houseArr = [];
     let promiseArr = this.props.favorites.map(item => {
       return axios.get(`${url}/api/realty/home/${item}`).then(response => {
@@ -106,6 +109,10 @@ class Favorites extends React.Component {
       errors: {}
     });
   };
+  removeFavorite = async id => {
+    await this.props.removeFavorite(id);
+    return;
+  };
   renderHomes = () => {
     return this.state.homes.map(home => {
       let bedrooms;
@@ -131,11 +138,12 @@ class Favorites extends React.Component {
           </small>
           <div className="picContainer" onClick={() => this.viewHome(home)}>
             <img
-              class="pic"
+              class="pic img-fluid"
               src={home.img}
               style={{ width: "100%", height: "300px" }}
               alt="Card image cap"
             />
+
             <div className="picText">
               <small>
                 <b> House for sale</b>
@@ -147,42 +155,52 @@ class Favorites extends React.Component {
           <div
             className="container"
             style={{
+              position: "relative",
+              height: "auto",
               width: "100%",
               border: "solid 1px black",
               borderTop: "none",
               display: "flex",
-              flexDirection: "column",
+              flexDirection: "row",
               alignItems: "flex-start"
             }}
           >
             <div
               style={{
                 display: "flex",
-                flexDirection: "wrap",
-                justifyContent: "space-between"
+                flexDirection: "column",
+                flexWrap: "no-wrap",
+                justifyContent: "flex-start"
               }}
             >
-              <small>
+              <small style={{ alignSelf: "flex-start" }}>{home.address}</small>
+              <small style={{ alignSelf: "flex-start" }}>
                 <b>{bedrooms}</b> Beds &nbsp;
               </small>
-              <small>
+              <small style={{ alignSelf: "flex-start" }}>
                 <b>{bathrooms}</b> Baths &nbsp;{" "}
               </small>
-              <small>
+              <small style={{ alignSelf: "flex-start" }}>
                 <b>{home.footage}</b> sqft
               </small>
+
+              <small style={{ alignSelf: "flex-start" }}>
+                <b>
+                  <a
+                    style={{ color: "blue" }}
+                    onClick={() => this.setModal(home)}
+                  >
+                    Email Agent
+                  </a>
+                </b>
+              </small>
             </div>
-            <small style={{ textAlign: "left" }}>{home.address}</small>
-            <small>
-              <b>
-                <a
-                  style={{ color: "blue" }}
-                  onClick={() => this.setModal(home)}
-                >
-                  Email Agent
-                </a>
-              </b>
-            </small>
+            <button
+              className="btn btn-sm removeFav"
+              onClick={() => this.removeFavorite(home._id)}
+            >
+              X
+            </button>
           </div>
         </div>
       );
@@ -192,7 +210,6 @@ class Favorites extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <h1 style={{ float: "left" }}>favorites</h1>
         <ToastContainer
           position="top-right"
           autoClose={1900}
@@ -315,4 +332,7 @@ const mapStateToProps = ({ favorites }) => {
     favorites
   };
 };
-export default connect(mapStateToProps)(Favorites);
+export default connect(
+  mapStateToProps,
+  { selectHome, removeFavorite }
+)(Favorites);

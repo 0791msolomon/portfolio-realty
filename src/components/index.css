@@ -35,7 +35,12 @@
 .pic {
   -webkit-filter: brightness(100%);
 }
-
+.removeFav {
+  color: red;
+  position: absolute;
+  bottom: 2%;
+  right: 2%;
+}
 .viewListings {
   background-color: transparent;
   color: black;
@@ -66,6 +71,14 @@
   flex-direction: column;
   bottom: 10%;
   /* left: -1%; */
+}
+.close {
+  position: absolute;
+  color: red;
+  display: flex;
+  flex-direction: column;
+  bottom: 85%;
+  right: 5%;
 }
 
 .links {
