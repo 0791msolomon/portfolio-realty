@@ -15,7 +15,7 @@ class RecentListings extends React.Component {
   componentDidMount = async () => {
     try {
       let recent = await axios.get(`${url}/api/realty/recentListings`);
-      let all = await axios.get(url);
+      let all = await axios.get(`${url}/api/realty`);
       this.setState({
         homes: recent.data,
         allHomes: all.data,
