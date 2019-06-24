@@ -8,6 +8,7 @@ import { connect } from "react-redux";
 import { selectHome } from "../actions";
 import { withRouter } from "react-router-dom";
 import Link from "./Link";
+import LogIn from "./LogIn";
 import InfiniteCarousel from "react-leaf-carousel";
 const axios = require("axios");
 const url = process.env.REACT_APP_BASEURL || "http://localhost:5000";
@@ -61,6 +62,9 @@ class Home extends React.Component {
     }
   };
   render() {
+    if (!this.props.loggedIn) {
+      return <LogIn />;
+    }
     return (
       <React.Fragment>
         <div className="headerImage">
@@ -183,10 +187,15 @@ class Home extends React.Component {
     );
   }
 }
+const mapStateToProps = ({ loggedIn }) => {
+  return {
+    loggedIn
+  };
+};
 
 export default withRouter(
   connect(
-    null,
+    mapStateToProps,
     { selectHome }
   )(Home)
 );

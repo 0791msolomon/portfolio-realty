@@ -395,17 +395,89 @@ class IndividualListing extends React.Component {
           </div>
         </Collapsible>
         <Collapsible trigger="Nearby Schools" style={{ textAlign: "left" }}>
-          <div
+          <div className="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">Rating</th>
+                  <th scope="col">School</th>
+                  <th scope="col">Grades</th>
+                  <th scope="col">Distance</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">
+                    <small className="school">7</small>
+                  </th>
+                  <td>
+                    <small>Lincoln Elementary</small>
+                  </td>
+                  <td>
+                    {" "}
+                    <small> k-5</small>
+                  </td>
+                  <td>
+                    <small>.7 Miles</small>
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row">
+                    <small className="school">6</small>
+                  </th>
+                  <td>
+                    <small>Washington High</small>
+                  </td>
+                  <td>
+                    <small> 9-12</small>
+                  </td>
+                  <td>
+                    <small>6.9 Miles</small>
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row">
+                    <small className="school">9</small>
+                  </th>
+                  <td>
+                    <small>Royalview Middle</small>
+                  </td>
+                  <td>
+                    <small>6-0</small>
+                  </td>
+                  <td>
+                    <small>4 Miles</small>
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row">
+                    <small className="school">4</small>
+                  </th>
+                  <td>
+                    <small>Jefferson</small>
+                  </td>
+                  <td>
+                    <small>k-12</small>
+                  </td>
+                  <td>
+                    <small>.7 Miles</small>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          {/* <div
             className="col-12"
             style={{
               display: "flex",
               flexDirection: "row",
               justifyContent: "flex-start",
-              flexWrap: "wrap"
+              flexWrap: "no-wrap",
+              overflowX: "auto"
             }}
           >
             <div
-              className="col-lg-3 col-sm-12"
+              className="col-3"
               style={{ display: "flex", flexDirection: "column" }}
             >
               <h6 style={{ alignSelf: "flex-start" }}>Rating</h6>
@@ -414,59 +486,85 @@ class IndividualListing extends React.Component {
               </small>
               <small
                 className="school"
-                style={{ marginTop: "3%", alignSelf: "flex-start" }}
+                style={{
+                  marginTop: "3%",
+                  alignSelf: "flex-start",
+                  marginTop: "20px"
+                }}
               >
                 6
               </small>
               <small
                 className="school"
-                style={{ marginTop: "3%", alignSelf: "flex-start" }}
+                style={{
+                  marginTop: "3%",
+                  alignSelf: "flex-start",
+                  marginTop: "20px"
+                }}
               >
                 9
               </small>
               <small
                 className="school"
-                style={{ marginTop: "3%", alignSelf: "flex-start" }}
+                style={{
+                  marginTop: "3%",
+                  alignSelf: "flex-start",
+                  marginTop: "20px"
+                }}
               >
                 4
               </small>
             </div>
             <div
-              className="col-lg-3 col-sm-12"
+              className="col-4"
               style={{ display: "flex", flexDirection: "column" }}
             >
-              <h6 style={{ alignSelf: "flex-start" }}>School Name</h6>
+              <h6 style={{ alignSelf: "flex-start" }}>School</h6>
               <small style={{ alignSelf: "flex-start" }}>
                 Lincoln Elementary
               </small>
-              <small style={{ marginTop: "3%", alignSelf: "flex-start" }}>
+              <small style={{ alignSelf: "flex-start" }}>
                 Royalview middle
               </small>
-              <small style={{ marginTop: "3%", alignSelf: "flex-start" }}>
-                Washington High
-              </small>
-              <small style={{ marginTop: "3%", alignSelf: "flex-start" }}>
-                Jefferson
-              </small>
+              <small style={{ alignSelf: "flex-start" }}>Washington High</small>
+              <small style={{ alignSelf: "flex-start" }}>Jefferson</small>
             </div>
             <div
-              className="col-lg-3 col-sm-12"
+              className="col-3"
               style={{ display: "flex", flexDirection: "column" }}
             >
               <h6 style={{ alignSelf: "flex-start" }}>Grades</h6>
               <small style={{ alignSelf: "flex-start" }}>k-5</small>
-              <small style={{ marginTop: "3%", alignSelf: "flex-start" }}>
+              <small
+                style={{
+                  marginTop: "3%",
+                  alignSelf: "flex-start",
+                  marginTop: "20px"
+                }}
+              >
                 6-9
               </small>
-              <small style={{ marginTop: "3%", alignSelf: "flex-start" }}>
+              <small
+                style={{
+                  marginTop: "3%",
+                  alignSelf: "flex-start",
+                  marginTop: "20px"
+                }}
+              >
                 9-12
               </small>
-              <small style={{ marginTop: "3%", alignSelf: "flex-start" }}>
+              <small
+                style={{
+                  marginTop: "3%",
+                  alignSelf: "flex-start",
+                  marginTop: "20px"
+                }}
+              >
                 k-9
               </small>
             </div>
             <div
-              className="col-lg-3 col-sm-12"
+              className="col-3"
               style={{ display: "flex", flexDirection: "column" }}
             >
               <h6 style={{ alignSelf: "flex-start" }}>Distance</h6>
@@ -481,7 +579,7 @@ class IndividualListing extends React.Component {
                 4.3 miles
               </small>
             </div>
-          </div>
+          </div> */}
         </Collapsible>
 
         <Modal

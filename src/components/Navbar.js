@@ -32,7 +32,10 @@ const Navbar = props => {
       >
         <span class="navbar-toggler-icon" />
       </button>
-      <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+      <div
+        class="collapse navbar-collapse container-fullwidth"
+        id="navbarTogglerDemo01"
+      >
         <Link class="navbar-brand" to="/">
           <span
             style={{ fontFamily: "Optima, sans-serif", fontWeight: "bold" }}
@@ -40,35 +43,43 @@ const Navbar = props => {
             Mock Realty
           </span>
         </Link>
-        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-          <li class="nav-item  ">
-            <a class="nav-link" href="#">
-              Buy
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">
-              Sell
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link  " href="#">
-              Rent
-            </a>
-          </li>
-          <li class="nav-item">
-            <Link class="nav-link  " to="/favorites">
-              {arr.length > 0 ? `Favorites (${arr.length})` : "Favorites (0)"}
-            </Link>
-          </li>
-        </ul>
+        {props.loggedIn ? (
+          <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+            <li class="nav-item  ">
+              <a class="nav-link" href="#">
+                Buy
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">
+                Sell
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link  " href="#">
+                Rent
+              </a>
+            </li>
+            <li class="nav-item">
+              <Link class="nav-link  " to="/favorites">
+                {arr.length > 0 ? `Favorites (${arr.length})` : "Favorites (0)"}
+              </Link>
+            </li>
+          </ul>
+        ) : null}
+        {/* <div class="form-inline my-2 my-lg-0">
+          <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">
+            Login
+          </button>
+        </div> */}
       </div>
     </nav>
   );
 };
-const mapStateToProps = ({ favorites }) => {
+const mapStateToProps = ({ favorites, loggedIn }) => {
   return {
-    favorites
+    favorites,
+    loggedIn
   };
 };
 export default connect(mapStateToProps)(Navbar);
