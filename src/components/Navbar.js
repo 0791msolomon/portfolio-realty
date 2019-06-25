@@ -66,12 +66,13 @@ const Navbar = props => {
               </Link>
             </li>
           </ul>
-        ) : null}
-        {/* <div class="form-inline my-2 my-lg-0">
-          <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">
-            Login
-          </button>
-        </div> */}
+        ) : (
+          <div class="form-inline my-2 my-lg-0" style={{ float: "right" }}>
+            <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">
+              Login
+            </button>
+          </div>
+        )}
       </div>
     </nav>
   );

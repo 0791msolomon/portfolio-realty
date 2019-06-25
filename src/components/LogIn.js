@@ -1,11 +1,14 @@
 import React from "react";
-
+import Register from "./Register";
 class LogIn extends React.Component {
   constructor(props) {
     super(props);
     this.state = { register: false };
   }
   render() {
+    if (this.state.register) {
+      return <Register />;
+    }
     return (
       <div
         style={{
@@ -54,18 +57,41 @@ class LogIn extends React.Component {
               placeholder="Password"
             />
           </div>
-
-          <button
-            type="submit"
-            class="btn "
+          <div
             style={{
-              float: "left",
-              backgroundColor: "#17a2b8",
-              color: "white"
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "space-between"
             }}
           >
-            Submit
-          </button>
+            <button
+              type="submit"
+              class="btn "
+              style={{
+                float: "left",
+                backgroundColor: "#17a2b8",
+                color: "white"
+              }}
+            >
+              Submit
+            </button>
+            <button
+              type="submit"
+              class="btn "
+              style={{
+                float: "left",
+                backgroundColor: "#17a2b8",
+                color: "white"
+              }}
+              onClick={() => this.setState({ register: true })}
+            >
+              Register
+            </button>
+          </div>
+
+          <div style={{ marginTop: "15%", float: "left" }}>
+            <a href="google.com">forgot password</a>
+          </div>
         </form>
       </div>
     );
